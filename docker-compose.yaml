@@ -1,0 +1,27 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "3001:3001" 
+    environment:
+      REDIS_URL: "redis://redis:6379" 
+    depends_on:
+      - redis  
+
+  frontend:
+    build:
+      context: ./frontend 
+    ports:
+      - "3000:3000" 
+    environment:
+      NEXT_PUBLIC_API_URL: "http://localhost:3001" 
+    depends_on:
+      - api  
+
+  redis:
+    image: redis:latest  
+    ports:
+      - "6379:6379" 
+    restart: always  
